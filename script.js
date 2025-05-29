@@ -32,7 +32,7 @@ const finalScoreDisplay = document.getElementById('final-score');
 const restartBtn = document.getElementById('restart-btn');
 const highscoresList = document.getElementById('highscores');
 
-const socket = io('http://localhost:3000');
+const socket = new WebSocket("wss:https://encanalogica-ws.onrender.com");
 
 // Niveis
 const levels = [
