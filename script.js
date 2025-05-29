@@ -39,9 +39,15 @@ const gameoverSound = document.getElementById('gameover-sound');
 
 const socket = io("https://encanalogica-ws.onrender.com");
 
-socket.on('rankings', (updatedRankings) => {
+socket.on('update-rankings', (updatedRankings) => {
     gameState.highscores = updatedRankings;
     showHighscores();
+
+    if (gameoverScreen.classList.contains('hidden')) {
+        finalScoreDisplay.textContent = `Pontuação: ${gameState.score}`;
+        gameScreen.classList.add('hidden');
+        gameoverScreen.classList.remove('hidden');
+    }
 });
 
 // Niveis
@@ -373,7 +379,6 @@ function showGameOver(message) {
     gameoverScreen.classList.remove('hidden');
 
     finalScoreDisplay.textContent = `${message} Pontuação: ${gameState.score}`;
-    showHighscores();
 }
 
 function showFeedback(message, isSuccess) {
