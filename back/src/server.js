@@ -11,7 +11,7 @@ let rankings = [];
 io.on('connection', socket => {
     console.log('Novo jogador conectado');
 
-    socket.emit('update-rankings', rankings); // Envia ranking atual para novo jogador
+    socket.emit('update-rankings', rankings);
 
     socket.on('submit-score', playerData => {
         rankings.push(playerData);
