@@ -39,6 +39,11 @@ const gameoverSound = document.getElementById('gameover-sound');
 
 const socket = io("https://encanalogica-ws.onrender.com");
 
+socket.on('rankings', (updatedRankings) => {
+    gameState.highscores = updatedRankings;
+    showHighscores();
+});
+
 // Niveis
 const levels = [
     // Nivel 1
@@ -395,7 +400,10 @@ function saveScore() {
     };
 
     socket.emit('submit-score', playerData);
+
+    socket.emit('get-rankings');
 }
+
 
 socket.on('update-rankings', (updatedRankings) => {
     gameState.highscores = updatedRankings;
