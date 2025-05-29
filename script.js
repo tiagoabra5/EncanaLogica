@@ -37,7 +37,7 @@ const errorSound = document.getElementById('error-sound');
 const clockSound = document.getElementById('clock-sound');
 const gameoverSound = document.getElementById('gameover-sound');
 
-const socket = new WebSocket("wss:https://encanalogica-ws.onrender.com");
+const socket = io("https://encanalogica-ws.onrender.com");
 
 // Niveis
 const levels = [
