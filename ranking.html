@@ -76,13 +76,11 @@
         const socket = io("https://encanalogica-ws.onrender.com");
         const rankingsList = document.getElementById('rankings-list');
 
-        // Função para formatar a data
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('pt-BR');
         }
 
-        // Atualiza a lista de rankings
         function updateRankings(rankings) {
             rankingsList.innerHTML = '';
             
@@ -97,12 +95,10 @@
             });
         }
 
-        // Recebe atualizações do servidor
         socket.on('update-rankings', (rankings) => {
             updateRankings(rankings);
         });
 
-        // Carrega os rankings iniciais
         fetch('https://encanalogica-ws.onrender.com/rankings')
             .then(response => response.json())
             .then(data => updateRankings(data))
