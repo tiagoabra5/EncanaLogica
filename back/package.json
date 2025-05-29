@@ -4,6 +4,8 @@
   "description": "EncanaLogica é um jogo de raciocínio lógico que desafia os jogadores a identificar e analisar argumentos, distinguindo entre silogismos validos e sofismas com uma abordagem interativa e educativa.",
   "main": "script.js",
   "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
