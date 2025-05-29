@@ -1,4 +1,4 @@
-// server.js
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -15,13 +15,15 @@ const io = new Server(server, {
   }
 });
 
-// Conexão com MongoDB
-mongoose.connect('mongodb+srv://username:password@cluster0.mongodb.net/encanalogica?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
+}).then(() => {
+  console.log('Conectado ao MongoDB');
+}).catch(err => {
+  console.error('Erro na conexão com MongoDB:', err);
 });
 
-// Modelo para os scores
 const Score = mongoose.model('Score', {
   name: String,
   score: Number,
@@ -32,12 +34,10 @@ const Score = mongoose.model('Score', {
 io.on('connection', socket => {
   console.log('Novo jogador conectado');
 
-  // Envia os rankings quando um cliente se conecta
   updateRankings(socket);
 
   socket.on('submit-score', async (playerData) => {
     try {
-      // Salva o novo score
       const newScore = new Score({
         name: playerData.name,
         score: playerData.score,
@@ -45,7 +45,6 @@ io.on('connection', socket => {
       });
       await newScore.save();
       
-      // Atualiza todos os clientes
       updateRankings(io);
     } catch (err) {
       console.error('Erro ao salvar score:', err);
@@ -70,7 +69,6 @@ async function updateRankings(target) {
   }
 }
 
-// Rota para a página de rankings
 app.get('/rankings', async (req, res) => {
   try {
     const rankings = await Score.find()
