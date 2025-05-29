@@ -1,7 +1,6 @@
 const sensorState = {
     a: false,
     b: false,
-    c: false
 };
 
 const gameState = {
@@ -278,8 +277,8 @@ function testSolution() {
     const level = levels[gameState.currentLevel - 1];
     const cells = document.querySelectorAll('.cell.placed');
 
-    const expected = level.solution(sensorState.a, sensorState.b);
-    const actual = evaluateSolution(sensorState.a, sensorState.b);
+    const expected = level.solution();
+    const actual = evaluateSolution();
 
     if (expected === actual) {
         levelComplete();
@@ -289,30 +288,11 @@ function testSolution() {
 }
 
 function evaluateSolution() {
-    const cells = document.querySelectorAll('.cell.placed');
-    let result = null;
+    const cell = document.querySelector('.cell.placed');
+    if (!cell) return false;
 
-    for (const cell of cells) {
-        const operators = cell.textContent.trim().split(/\s+/);
-
-        let current = null;
-
-        for (const op of operators) {
-            switch (op) {
-                case 'sil': current = true; break;
-                case 'sof': current = false; break;
-                default: current = false; break;
-            }
-        }
-
-        if (result === null) {
-            result = current;
-        } else {
-            result = result || current;
-        }
-    }
-
-    return result;
+    const op = cell.textContent.trim();
+    return op === 'sil';
 }
 
 function levelComplete() {
@@ -397,30 +377,26 @@ function updateHUD() {
 }
 
 function saveScore() {
-    const playerData = {
-        name: gameState.playerName,
-        score: gameState.score,
-        level: gameState.currentLevel,
-        date: new Date().toLocaleDateString()
-    };
+  const playerData = {
+    name: gameState.playerName,
+    score: gameState.score,
+    level: gameState.currentLevel
+  };
 
-    socket.emit('submit-score', playerData);
-
-    socket.emit('get-rankings');
+  socket.emit('submit-score', playerData);
 }
 
-
 socket.on('update-rankings', (updatedRankings) => {
-    gameState.highscores = updatedRankings;
-    showHighscores();
+  gameState.highscores = updatedRankings;
+  showHighscores();
 });
 
 function showHighscores() {
-    highscoresList.innerHTML = '';
+  highscoresList.innerHTML = '';
 
-    gameState.highscores.forEach((player, index) => {
-        const li = document.createElement('li');
-        li.textContent = `${index + 1}. ${player.name} - ${player.score} pts (Nível ${player.level})`;
-        highscoresList.appendChild(li);
-    });
+  gameState.highscores.forEach((player, index) => {
+    const li = document.createElement('li');
+    li.textContent = `${index + 1}. ${player.name} - ${player.score} pts (Nível ${player.level})`;
+    highscoresList.appendChild(li);
+  });
 }
