@@ -1,0 +1,25 @@
+{
+  "name": "encanalogica",
+  "version": "1.0.0",
+  "description": "EncanaLogica é um jogo de raciocínio lógico que desafia os jogadores a identificar e analisar argumentos, distinguindo entre silogismos validos e sofismas com uma abordagem interativa e educativa.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiagoabra5/EncanaLogica.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tiagoabra5/EncanaLogica/issues"
+  },
+  "homepage": "https://github.com/tiagoabra5/EncanaLogica#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  }
+}
