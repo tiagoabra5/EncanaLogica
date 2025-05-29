@@ -36,7 +36,7 @@ const errorSound = document.getElementById('error-sound');
 const clockSound = document.getElementById('clock-sound');
 const gameoverSound = document.getElementById('gameover-sound');
 
-const socket = io("https://encanalogica-ws.onrender.com");
+const socket = io("https://encanalogica-server.onrender.com");
 
 socket.on('update-rankings', (updatedRankings) => {
     gameState.highscores = updatedRankings;
