@@ -32,6 +32,11 @@ const finalScoreDisplay = document.getElementById('final-score');
 const restartBtn = document.getElementById('restart-btn');
 const highscoresList = document.getElementById('highscores');
 
+const successSound = document.getElementById('success-sound');
+const errorSound = document.getElementById('error-sound');
+const clockSound = document.getElementById('clock-sound');
+const gameoverSound = document.getElementById('gameover-sound');
+
 const socket = new WebSocket("wss:https://encanalogica-ws.onrender.com");
 
 // Niveis
@@ -210,6 +215,7 @@ function startTimer() {
         updateTimerDisplay();
 
         if (gameState.timeLeft === 10) {
+            clockSound.play();
             timerDisplay.classList.add('warning');
         }
 
@@ -225,7 +231,10 @@ function updateTimerDisplay() {
 
 function timeUp() {
     clearInterval(gameState.timerInterval);
+    clockSound.pause();
+    clockSound.currentTime = 0;
 
+    errorSound.play();
     loseLife();
 }
 
@@ -297,9 +306,13 @@ function evaluateSolution() {
 
 function levelComplete() {
     clearInterval(gameState.timerInterval);
+    clockSound.pause();
+    clockSound.currentTime = 0;
+
     gameState.score += 100 + gameState.timeLeft;
     updateHUD();
 
+    successSound.play();
     document.getElementById('oil-flow').style.height = "100%";
     showFeedback("", true);
 
@@ -313,6 +326,7 @@ function levelComplete() {
 }
 
 function levelFailed() {
+    errorSound.play();
     document.getElementById('oil-flow').style.height = "30%";
     showFeedback("", false);
     grid.classList.add('shake');
@@ -341,7 +355,10 @@ function gameOver() {
     document.getElementById('oil-flow').style.height = "0%";
     
     clearInterval(gameState.timerInterval);
-;
+    clockSound.pause();
+    clockSound.currentTime = 0;
+
+    gameoverSound.play();
     saveScore();
     showGameOver("Game Over! Tente novamente.");
 }
