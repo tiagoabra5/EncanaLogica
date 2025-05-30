@@ -28,7 +28,6 @@ const Score = mongoose.model('Score', {
   name: String,
   score: Number,
   level: Number,
-  date: { type: Date, default: Date.now }
 });
 
 io.on('connection', socket => {
