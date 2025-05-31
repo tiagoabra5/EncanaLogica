@@ -83,9 +83,9 @@ const levels = [
     // Nivel 5
     {
         mission: "Todos os triângulos têm três lados. Uma figura tem três lados. Logo, é um triângulo",
-        solution: () => false,
+        solution: () => true,
         time: 60,
-        answer: "Sofisma"
+        answer: "Silogismo"
     },
     // Nivel 6
     {
@@ -118,13 +118,13 @@ const levels = [
     // Nivel 10
     {
         mission: "Todos os estudantes leem livros. Alguns leitores são estudantes. Logo, todos os leitores leem livros",
-        solution: () => false,
+        solution: () => true,
         time: 60,
-        answer: "Sofisma"
+        answer: "Silogismo"
     },
     // Nivel 11
     {
-        mission: "Nenhum ser humano é perfeito. Algumas máquinas são perfeitas. Logo, algumas máquinas não são seres humanos",
+        mission: "Nenhum ser humano é perfeito. Algumas máquinas são perfeitas. Logo, máquinas não são seres humanos",
         solution: () => true,
         time: 60,
         answer: "Silogismo (válido)"
