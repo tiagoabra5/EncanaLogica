@@ -11,6 +11,7 @@ const gameState = {
     timeLeft: 60,
     timerInterval: null,
     selectedOperator: null,
+    isTransitioning: false,
     highscores: JSON.parse(localStorage.getItem('EncanaLogicaHighscores')) || []
 };
 
@@ -193,7 +194,9 @@ function resetGame() {
 }
 
 function loadLevel(levelNum) {
-     document.getElementById('oil-flow').style.height = "0%";
+    document.getElementById('oil-flow').style.height = "0%";
+    gameState.isTransitioning = false;
+    testBtn.disabled = true;
     
     if (gameState.timerInterval) clearInterval(gameState.timerInterval);
 
@@ -249,10 +252,11 @@ function timeUp() {
 }
 
 function placeOperator(cell) {
-    if (!gameState.selectedOperator) return;
+    if (!gameState.selectedOperator || gameState.isTransitioning) return;
 
     cell.textContent = gameState.selectedOperator;
     cell.classList.add('placed');
+    testBtn.disabled = false;
 
     document.querySelectorAll('.cell').forEach(otherCell => {
         if (otherCell !== cell) {
@@ -271,12 +275,22 @@ document.querySelectorAll('.btn-logic').forEach(btn => {
     });
 });
 
-testBtn.addEventListener('click', testSolution);
+testBtn.addEventListener('click', function() {
+    const hasAnswer = document.querySelector('.cell.placed') !== null;
+    if (!hasAnswer) {
+        return;
+    }
+    testSolution();
+});
 
 function testSolution() {
-    const level = levels[gameState.currentLevel - 1];
-    const cells = document.querySelectorAll('.cell.placed');
+    if (gameState.isTransitioning || !document.querySelector('.cell.placed')) {
+        if (!document.querySelector('.cell.placed')) {
+        }
+        return;
+    }
 
+    const level = levels[gameState.currentLevel - 1];
     const expected = level.solution();
     const actual = evaluateSolution();
 
@@ -296,6 +310,7 @@ function evaluateSolution() {
 }
 
 function levelComplete() {
+    gameState.isTransitioning = true;
     clearInterval(gameState.timerInterval);
     clockSound.pause();
     clockSound.currentTime = 0;
@@ -307,23 +322,31 @@ function levelComplete() {
     document.getElementById('oil-flow').style.height = "100%";
     showFeedback("", true);
 
+    testBtn.disabled = true;
+
     setTimeout(() => {
         if (gameState.currentLevel < levels.length) {
             loadLevel(gameState.currentLevel + 1);
         } else {
             gameCompleted();
         }
+        gameState.isTransitioning = false;
     }, 2000);
 }
 
 function levelFailed() {
+    gameState.isTransitioning = true;
     errorSound.play();
     document.getElementById('oil-flow').style.height = "30%";
     showFeedback("", false);
     grid.classList.add('shake');
+    testBtn.disabled = true;
 
-    setTimeout(() => grid.classList.remove('shake'), 300);
-    loseLife();
+    setTimeout(() => {
+        grid.classList.remove('shake');
+        loseLife();
+        gameState.isTransitioning = false;
+    }, 300);
 }
 
 function loseLife() {
