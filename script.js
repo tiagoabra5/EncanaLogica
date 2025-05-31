@@ -54,108 +54,108 @@ socket.on('update-rankings', (updatedRankings) => {
 const levels = [
     // Nivel 1
     {
-        mission: "Nenhum gato é cachorro. Meu pet é um gato. Logo, meu pet não é cachorro",
+        mission: "Nenhum cachorro é peixe. Meu pet é um cachorro. Logo, meu pet não é peixe",
         solution: () => true,
         time: 60,
         answer: "Silogismo (válido)"
     },
     // Nivel 2
     {
-        mission: "Todas as plantas são verdes. Algumas flores são verdes. Logo, algumas flores são plantas",
-        solution: () => false,
-        time: 60,
-        answer: "Sofisma"
-    },
-    // Nivel 3
-    {
-        mission: "Todos os mamíferos têm pulmões. Baleias são mamíferos. Logo, baleias têm pulmões",
+        mission: "Todos os gatos são mamíferos. O Garfield é um gato. Logo, Garfield é um mamífero",
         solution: () => true,
         time: 60,
         answer: "Silogismo (válido)"
     },
-    // Nivel 4
+    // Nivel 3
     {
-        mission: "Quem estuda passa. João não estuda. Logo, João não passa",
+        mission: "Todos os peixes vivem na água. Alguns animais vivem na água. Logo, esses animais são peixes",
         solution: () => false,
         time: 60,
         answer: "Sofisma"
     },
+    // Nivel 4
+    {
+        mission: "Se chover, a grama molha. Está chovendo. Logo, a grama molha",
+        solution: () => true,
+        time: 60,
+        answer: "Silogismo (válido)"
+    },
     // Nivel 5
     {
-        mission: "Todos os pássaros voam. O pinguim é um pássaro. Logo, o pinguim voa",
+        mission: "Todos os triângulos têm três lados. Uma figura tem três lados. Logo, é um triângulo",
         solution: () => false,
         time: 60,
         answer: "Sofisma"
     },
     // Nivel 6
     {
-        mission: "Todos os A são B. Alguns C são B. Logo, alguns C são A",
+        mission: "Se um animal é cão, então ele late. Meu gato late. Logo, ele é um cão",
         solution: () => false,
         time: 60,
         answer: "Sofisma"
     },
     // Nivel 7
     {
-        mission: "Nenhum político é honesto. Alguns professores são políticos. Logo, alguns professores não são honestos",
+        mission: "Todos os livros têm páginas. A Bíblia é um livro. Logo, a Bíblia tem páginas",
         solution: () => true,
         time: 60,
-        answer: "Silogismo"
+        answer: "Silogismo (válido)"
     },
     // Nivel 8
     {
-        mission: "Se é dia, há luz. Há luz. Logo, é dia",
+        mission: "Alguns médicos são pianistas. Todos os pianistas tocam piano. Logo, todos os médicos tocam piano",
         solution: () => false,
         time: 60,
         answer: "Sofisma"
     },
     // Nivel 9
     {
-        mission: "Tudo que é raro é valioso. Água não é rara. Logo, água não é valiosa",
-        solution: () => false,
+        mission: "Se estou gripado, então espirro. Estou gripado. Logo, espirro",
+        solution: () => true,
         time: 60,
-        answer: "Sofisma"
+        answer: "Silogismo (válido)"
     },
     // Nivel 10
     {
-        mission: "Nenhum peixe é mamífero. Alguns golfinhos são peixes. Logo, alguns golfinhos não são mamíferos",
+        mission: "Todos os estudantes leem livros. Alguns leitores são estudantes. Logo, todos os leitores leem livros",
         solution: () => false,
         time: 60,
         answer: "Sofisma"
     },
     // Nivel 11
     {
-        mission: "Se está chovendo, então a rua está molhada. A rua está molhada. Logo, está chovendo",
-        solution: () => false,
+        mission: "Nenhum ser humano é perfeito. Algumas máquinas são perfeitas. Logo, algumas máquinas não são seres humanos",
+        solution: () => true,
         time: 60,
-        answer: "Sofisma"
+        answer: "Silogismo (válido)"
     },
     // Nivel 12
     {
-        mission: "Todos os médicos estudaram. Alguns que estudaram são artistas. Logo, alguns médicos são artistas",
+        mission: "Todos os cães são mamíferos. Todos os gatos são mamíferos. Logo, todos os gatos são cães",
         solution: () => false,
         time: 60,
         answer: "Sofisma"
     },
     // Nivel 13
     {
-        mission: "Nenhum réptil tem pelos. Alguns animais de estimação têm pelos. Logo, alguns animais de estimação não são répteis",
-        solution: () => true,
-        time: 60,
-        answer: "Silogismo"
-    },
-    // Nivel 14
-    {
-        mission: "Alguns professores são pacientes. Todos os pacientes são educados. Logo, alguns professores são educados",
-        solution: () => true,
-        time: 60,
-        answer: "Silogismo"
-    },
-    // Nivel 15
-    {
-        mission: "Todas as estrelas brilham. O sol brilha. Logo, o sol é uma estrela",
+        mission: "Se o motor está funcionando, o carro pode andar. O carro está andando. Logo, o motor está funcionando",
         solution: () => false,
         time: 60,
         answer: "Sofisma"
+    },
+    // Nivel 14
+    {
+        mission: "Todos os filósofos são pensadores. Sócrates é pensador. Logo, Sócrates é filósofo",
+        solution: () => false,
+        time: 60,
+        answer: "Sofisma"
+    },
+    // Nivel 15
+    {
+        mission: "Se um número é divisível por 2, então é par. 6 é par. Logo, é divisível por 2",
+        solution: () => true,
+        time: 60,
+        answer: "Silogismo (válido)"
     }
 ];
 
@@ -197,7 +197,7 @@ function loadLevel(levelNum) {
     document.getElementById('oil-flow').style.height = "0%";
     gameState.isTransitioning = false;
     testBtn.disabled = true;
-    
+
     if (gameState.timerInterval) clearInterval(gameState.timerInterval);
 
     gameState.currentLevel = levelNum;
@@ -221,16 +221,11 @@ function loadLevel(levelNum) {
 }
 
 function startTimer() {
-    updateTimerDisplay();
+    if (gameState.timerInterval) clearInterval(gameState.timerInterval);
 
     gameState.timerInterval = setInterval(() => {
         gameState.timeLeft--;
-        updateTimerDisplay();
-
-        if (gameState.timeLeft === 10) {
-            clockSound.play();
-            timerDisplay.classList.add('warning');
-        }
+        updateHUD();
 
         if (gameState.timeLeft <= 0) {
             timeUp();
@@ -254,28 +249,31 @@ function timeUp() {
 function placeOperator(cell) {
     if (!gameState.selectedOperator || gameState.isTransitioning) return;
 
-    cell.textContent = gameState.selectedOperator;
+    document.querySelectorAll('.cell').forEach(c => {
+        c.classList.remove('placed');
+        c.textContent = '';
+    });
+
+    cell.textContent = gameState.selectedOperator === 'sil' ? 'Silogismo' : 'Sofismo';
     cell.classList.add('placed');
     testBtn.disabled = false;
-
-    document.querySelectorAll('.cell').forEach(otherCell => {
-        if (otherCell !== cell) {
-            otherCell.textContent = '';
-            otherCell.classList.remove('placed');
-        }
-    });
 }
 
-document.querySelectorAll('.btn-logic').forEach(btn => {
+document.querySelectorAll('.operator-btn').forEach(btn => {
     btn.addEventListener('click', function () {
         gameState.selectedOperator = this.dataset.operator;
 
-        document.querySelectorAll('.btn-logic').forEach(b => b.classList.remove('selected'));
-        this.classList.add('selected');
+        document.querySelectorAll('.operator-btn').forEach(b => {
+            b.classList.remove('btn-primary');
+            b.classList.add('btn-outline-primary');
+        });
+
+        this.classList.remove('btn-outline-primary');
+        this.classList.add('btn-primary');
     });
 });
 
-testBtn.addEventListener('click', function() {
+testBtn.addEventListener('click', function () {
     const hasAnswer = document.querySelector('.cell.placed') !== null;
     if (!hasAnswer) {
         return;
@@ -305,8 +303,7 @@ function evaluateSolution() {
     const cell = document.querySelector('.cell.placed');
     if (!cell) return false;
 
-    const op = cell.textContent.trim();
-    return op === 'sil';
+    return cell.textContent.trim() === 'Silogismo';
 }
 
 function levelComplete() {
@@ -367,7 +364,7 @@ function gameCompleted() {
 
 function gameOver() {
     document.getElementById('oil-flow').style.height = "0%";
-    
+
     clearInterval(gameState.timerInterval);
     clockSound.pause();
     clockSound.currentTime = 0;
@@ -395,31 +392,41 @@ function showFeedback(message, isSuccess) {
 }
 
 function updateHUD() {
-    scoreDisplay.textContent = `🏆 ${gameState.score}`;
-    livesDisplay.textContent = `❤️ `.repeat(gameState.lives);
+    document.getElementById('level-display').textContent = gameState.currentLevel;
+    document.getElementById('timer').textContent = gameState.timeLeft;
+    document.getElementById('score').textContent = gameState.score;
+    document.getElementById('lives').textContent = gameState.lives;
+
+    const timerBadge = document.getElementById('timer-badge');
+    if (gameState.timeLeft <= 10) {
+        timerBadge.classList.add('text-danger', 'border-danger');
+        if (!clockSound.paused) clockSound.play();
+    } else {
+        timerBadge.classList.remove('text-danger', 'border-danger');
+    }
 }
 
 function saveScore() {
-  const playerData = {
-    name: gameState.playerName,
-    score: gameState.score,
-    level: gameState.currentLevel
-  };
+    const playerData = {
+        name: gameState.playerName,
+        score: gameState.score,
+        level: gameState.currentLevel
+    };
 
-  socket.emit('submit-score', playerData);
+    socket.emit('submit-score', playerData);
 }
 
 socket.on('update-rankings', (updatedRankings) => {
-  gameState.highscores = updatedRankings;
-  showHighscores();
+    gameState.highscores = updatedRankings;
+    showHighscores();
 });
 
 function showHighscores() {
-  highscoresList.innerHTML = '';
+    highscoresList.innerHTML = '';
 
-  gameState.highscores.forEach((player, index) => {
-    const li = document.createElement('li');
-    li.textContent = `${index + 1}. ${player.name} - ${player.score} pts (Nível ${player.level})`;
-    highscoresList.appendChild(li);
-  });
+    gameState.highscores.forEach((player, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${player.name} - ${player.score} pts (Nível ${player.level})`;
+        highscoresList.appendChild(li);
+    });
 }
